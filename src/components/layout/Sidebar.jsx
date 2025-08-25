@@ -21,7 +21,7 @@ const Sidebar = ({ collapsed, onToggle }) => {
   };
 
   return (
-    <div className="d-flex flex-column sidebar-dark sidebar-sticky" style={{ width, height: '100vh', transition: 'width 150ms ease' }}>
+    <div className={`d-flex flex-column sidebar-dark sidebar-sticky ${!isCollapsed ? 'sidebar-open' : ''}`} style={{ width, height: '100vh', transition: 'width 150ms ease' }}>
       <div className="d-flex align-items-center justify-content-between p-3">
         <div className="fs-5 fw-bold text-white" style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}>
           {isCollapsed ? <i className="bi bi-app" aria-hidden /> : 'FlowState'}

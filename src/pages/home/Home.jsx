@@ -58,8 +58,13 @@ const Home = () => {
     dispatch(homeActions.exportCompanies());
   };
 
-  // Handle sidebar toggle
-  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
+  // Handle sidebar toggle (start collapsed on small screens)
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 992; // collapse by default on mobile/tablet
+    }
+    return false;
+  });
 
   if (loading) {
     return (
@@ -106,6 +111,24 @@ const Home = () => {
   return (
     <div className="d-flex bg-body-tertiary" style={{ minHeight: '100vh' }}>
       <Sidebar collapsed={sidebarCollapsed} onToggle={setSidebarCollapsed} />
+      {/* Mobile backdrop when sidebar is open */}
+      {!sidebarCollapsed && (
+        <div
+          className="sidebar-backdrop d-lg-none"
+          onClick={() => setSidebarCollapsed(true)}
+          aria-hidden
+        />
+      )}
+      {/* Mobile-only floating toggle button */}
+      <button
+        type="button"
+        className="btn btn-light d-lg-none mobile-sidebar-toggle"
+        aria-label="Open sidebar"
+        onClick={() => setSidebarCollapsed(false)}
+        style={{ display: sidebarCollapsed ? 'inline-flex' : 'none' }}
+      >
+        <i className="bi bi-list" />
+      </button>
       <div className="flex-grow-1 p-3">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h5 className="mb-0 d-flex align-items-center gap-2">
